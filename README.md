@@ -11,4 +11,6 @@ This is a Kotlin Multiplatform project targeting Android, iOS, Desktop.
   you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
 
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+
+https://github.com/masoudkarimi/ComposeMultiplatformBirds/assets/27435736/0fa5e245-5252-4cb1-b66d-bc090e1d4adf
+
