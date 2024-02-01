@@ -44,6 +44,9 @@ fun BirdsPage(uiState: BirdsUiState, modifier: Modifier = Modifier) {
                 AnimatedVisibility(visible = uiState.images.isNotEmpty()) {
                     LazyVerticalGrid(
                         columns = GridCells.Adaptive(180.dp),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier.padding(4.dp)
                     ) {
                         items(uiState.images) { image ->
                             BirdImageCell(image)
