@@ -3,6 +3,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
@@ -10,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.mvvm.compose.getViewModel
@@ -17,10 +19,25 @@ import dev.icerock.moko.mvvm.compose.viewModelFactory
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 
+@Composable
+fun BirdAppTheme(
+    content: @Composable () -> Unit
+) {
+    MaterialTheme(
+        colors = MaterialTheme.colors.copy(primary = Color.Black),
+        shapes = MaterialTheme.shapes.copy(
+            small = RoundedCornerShape(0.dp),
+            medium = RoundedCornerShape(0.dp),
+            large = RoundedCornerShape(0.dp),
+        )
+    ) {
+        content()
+    }
+}
 
 @Composable
 fun App() {
-    MaterialTheme {
+    BirdAppTheme {
         val birdsViewModel = getViewModel(Unit, viewModelFactory { BirdsViewModel() })
         val uiState by birdsViewModel.uiState.collectAsState()
 
