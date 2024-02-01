@@ -1,4 +1,3 @@
-![Screenshot 2024-02-02 at 00 37 18](https://github.com/masoudkarimi/ComposeMultiplatformBirds/assets/27435736/d3a977b3-2a55-4caa-b33b-ba6692cbdef5)
 This is a Kotlin Multiplatform project targeting Android, iOS, Desktop.
 
 * `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
