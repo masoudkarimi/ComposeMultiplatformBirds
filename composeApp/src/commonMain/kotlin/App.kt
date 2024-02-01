@@ -3,8 +3,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,12 +28,16 @@ fun App() {
             birdsViewModel.updateImages()
         }
 
-        BirdsPage(uiState, Modifier.fillMaxSize())
+        BirdsPage(uiState, birdsViewModel::selectCategory, Modifier.fillMaxSize())
     }
 }
 
 @Composable
-fun BirdsPage(uiState: BirdsUiState, modifier: Modifier = Modifier) {
+fun BirdsPage(
+    uiState: BirdsUiState,
+    onSelectCategory: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Box(modifier = modifier) {
         if (uiState.isLoading) {
             CircularProgressIndicator(
@@ -39,16 +45,34 @@ fun BirdsPage(uiState: BirdsUiState, modifier: Modifier = Modifier) {
                     .align(Alignment.Center)
             )
         } else {
-            Column {
-                Row {  }
-                AnimatedVisibility(visible = uiState.images.isNotEmpty()) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.fillMaxWidth().padding(4.dp)
+                ) {
+                    for (category in uiState.categories) {
+                        Button(
+                            onClick = {
+                                onSelectCategory(category)
+                            },
+                            modifier = Modifier.aspectRatio(1f).weight(1f)
+                        ) {
+                            Text(category)
+                        }
+                    }
+                }
+                AnimatedVisibility(visible = uiState.selectedImages.isNotEmpty()) {
                     LazyVerticalGrid(
                         columns = GridCells.Adaptive(180.dp),
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                         verticalArrangement = Arrangement.spacedBy(4.dp),
                         modifier = Modifier.padding(4.dp)
                     ) {
-                        items(uiState.images) { image ->
+                        items(uiState.selectedImages) { image ->
                             BirdImageCell(image)
                         }
                     }

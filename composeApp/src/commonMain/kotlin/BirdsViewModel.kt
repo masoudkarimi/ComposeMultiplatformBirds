@@ -14,8 +14,13 @@ import kotlinx.coroutines.launch
 
 data class BirdsUiState(
     val isLoading: Boolean = true,
-    val images: List<BirdImage> = emptyList()
-)
+    val images: List<BirdImage> = emptyList(),
+    val selectedCategory: String? = null
+) {
+    val categories: Set<String> = images.map(BirdImage::category).toSet()
+
+    val selectedImages: List<BirdImage> = images.filter { it.category == selectedCategory }
+}
 
 class BirdsViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(BirdsUiState())
@@ -35,6 +40,17 @@ class BirdsViewModel : ViewModel() {
             _uiState.update { it.copy(isLoading = false, images = images) }
         }
     }
+
+    fun selectCategory(category: String) {
+        _uiState.update { state ->
+            if (state.selectedCategory == category) {
+                state.copy(selectedCategory = null)
+            } else {
+                state.copy(selectedCategory = category)
+            }
+        }
+    }
+
     private suspend fun getImages(): List<BirdImage> = httpClient
         .get(urlString = "https://sebi.io/demo-image-api/pictures.json")
         .body<List<BirdImage>>()
