@@ -56,6 +56,8 @@ kotlin {
             implementation(libs.moko.mvvm.core)
             implementation(libs.moko.mvvm.compose)
             implementation(libs.kamel)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
         }
 
         iosMain.dependencies {

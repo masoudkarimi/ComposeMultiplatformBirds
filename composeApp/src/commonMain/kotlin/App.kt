@@ -11,10 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import data.BirdImage
+import dev.icerock.moko.mvvm.compose.ViewModelFactory
 import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import org.koin.compose.KoinApplication
+import org.koin.compose.koinInject
+import org.koin.core.logger.Level
 
 @Composable
 fun BirdAppTheme(
@@ -34,17 +38,24 @@ fun BirdAppTheme(
 
 @Composable
 fun App() {
-    BirdAppTheme {
-        val birdsViewModel = getViewModel(Unit, viewModelFactory { BirdsViewModel() })
-        val uiState by birdsViewModel.uiState.collectAsState()
-
-        LaunchedEffect(birdsViewModel) {
-            birdsViewModel.updateImages()
+    KoinApplication(
+        application = {
+            modules(appModule())
         }
+    ) {
+        BirdAppTheme {
+            val birdsViewModel = getViewModel(Unit, koinInject<ViewModelFactory<BirdsViewModel>>())
+            val uiState by birdsViewModel.uiState.collectAsState()
 
-        BirdsPage(uiState, birdsViewModel::selectCategory, Modifier.fillMaxSize())
+            LaunchedEffect(birdsViewModel) {
+                birdsViewModel.updateImages()
+            }
+
+            BirdsPage(uiState, birdsViewModel::selectCategory, Modifier.fillMaxSize())
+        }
     }
 }
+
 
 @Composable
 fun BirdsPage(
