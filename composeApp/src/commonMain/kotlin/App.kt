@@ -4,10 +4,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,7 +73,15 @@ fun BirdsPage(
                             onClick = {
                                 onSelectCategory(category)
                             },
-                            modifier = Modifier.aspectRatio(1f).weight(1f)
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = if (uiState.selectedCategory == category) {
+                                    Color.Green
+                                } else {
+                                    MaterialTheme.colors.primary
+                                }
+                            ),
+                            modifier = Modifier
+                                .aspectRatio(1.4f).weight(1f)
                         ) {
                             Text(category)
                         }
